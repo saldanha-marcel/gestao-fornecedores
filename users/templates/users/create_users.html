@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Criar Usuário{% endblock %}
+
+{% block content %}
+{% if messages %}
+  <div id="messages" class="mb-4">
+    {% for message in messages %}
+      <div class="
+        {% if message.tags == 'success' %} bg-green-600 text-white p-2 rounded mb-2
+        {% elif message.tags == 'error' %} bg-red-600 text-white p-2 rounded mb-2
+        {% else %} bg-gray-600 text-white p-2 rounded mb-2 {% endif %}
+      ">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    // Espera 5 segundos e remove o bloco de mensagens
+    setTimeout(function() {
+      var msg = document.getElementById("messages");
+      if (msg) {
+        msg.style.transition = "opacity 0.5s ease"; // efeito suave
+        msg.style.opacity = "0";
+        setTimeout(function(){ msg.remove(); }, 500); // remove do DOM
+      }
+    }, 5000);
+  </script>
+{% endif %}
+
+<div class="flex items-center justify-center min-h-[80vh] px-4">
+  <div class="w-full max-w-md bg-[#1c1f27] border border-[#3b4354] rounded-lg p-6 shadow-lg">
+    <h3 class="text-white text-2xl font-bold mb-6 text-center">Criar novo usuário</h3>
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-white text-sm font-medium mb-1">Nome</label>
+        {{ form.first_name }}
+      </div>
+      <div>
+        <label class="block text-white text-sm font-medium mb-1">Email</label>
+        {{ form.username }}
+      </div>
+      <div>
+        <label class="block text-white text-sm font-medium mb-1">Perfil</label>
+        {{ form.perfil }}
+      </div>
+      <div>
+        <label class="block text-white text-sm font-medium mb-1">Senha</label>
+        {{ form.password1 }}
+      </div>
+      <div>
+        <label class="block text-white text-sm font-medium mb-1">Confirmar Senha</label>
+        {{ form.password2 }}
+      </div>
+        <div class="flex justify-between mt-6">
+            <a href="{% url 'list_users' %}"
+               class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition">
+                Cancelar
+            </a>
+
+            <button type="submit"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                Atualizar
+            </button>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

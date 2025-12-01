@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}DataHub{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"/>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js" defer></script>
+
+    <!-- Ícone -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="bg-[#111318] text-white" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="min-h-screen flex flex-col overflow-x-hidden">
+      {% if user.is_authenticated %}
+      <!-- Header -->
+      <header class="flex items-center justify-between border-b border-[#282e39] px-10 py-3 w-full bg-white border-b shadow-sm">
+
+        {% include "header.html" %}
+      </header>
+      {% endif %}
+      <!-- Conteúdo principal -->
+      <main class="flex-1 px-4 md:px-40 py-6">
+        {% block content %}{% endblock %}
+      </main>
+
+      <!-- Rodapé opcional -->
+      {% block footer %}{% endblock %}
+    </div>
+  </body>
+</html>
