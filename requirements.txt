@@ -5,7 +5,9 @@ Django==5.2.8
 django-role-permissions==3.2.0
 djangorestframework==3.16.1
 dotenv==0.9.9
+gunicorn==23.0.0
 idna==3.11
+packaging==25.0
 python-dotenv==1.2.1
 requests==2.32.5
 sqlparse==0.5.3
