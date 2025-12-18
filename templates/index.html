@@ -2,113 +2,239 @@
 {% load static %}
 
 {% block content %}
-
-
-<div class="p-6">
-
-    <!-- Título -->
-    <h1 class="text-2xl font-bold mb-6">Dashboard de Vendas</h1>
-
-    <!-- Cards superiores -->
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
-
-        <!-- Receita Total -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Receita Total</div>
-            <div class="text-2xl font-bold text-blue-900">R$ 3.540.000,00</div>
-            <div class="text-green-600 text-sm font-semibold mt-1">↑ +12.5%</div>
-        </div>
-
-        <!-- Lucro Bruto -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Lucro Bruto</div>
-            <div class="text-2xl font-bold text-blue-900">R$ 1.815.000,00</div>
-            <div class="text-green-600 text-sm font-semibold mt-1">↑ +8.3%</div>
-        </div>
-
-        <!-- Custo Total -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Custo Total</div>
-            <div class="text-2xl font-bold text-blue-900">R$ 1.725.000,00</div>
-        </div>
-
-        <!-- Markup -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Markup Médio</div>
-            <div class="text-2xl font-bold text-blue-900">115.5%</div>
-        </div>
-
-        <!-- Quantidade Vendida -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Quantidade Vendida</div>
-            <div class="text-2xl font-bold text-blue-900">2.870</div>
-            <div class="text-sm text-gray-600">unidades</div>
-        </div>
-
-        <!-- Ticket Médio -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <div class="text-sm text-gray-500">Ticket Médio</div>
-            <div class="text-2xl font-bold text-blue-900">R$ 1.233,45</div>
-        </div>
-
-    </div>
-
-    <!-- Gráficos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-
-        <!-- Receita por Mês -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <h2 class="text-lg font-semibold mb-3">Receita por Mês</h2>
-            <canvas id="receitaMesChart"></canvas>
-        </div>
-
-        <!-- Receita vs Custo -->
-        <div class="bg-white shadow rounded-xl p-5 border">
-            <h2 class="text-lg font-semibold mb-3">Receita vs Custo</h2>
-            <canvas id="receitaCustoChart"></canvas>
-        </div>
-
-    </div>
-
+<main class="flex-1 flex justify-center py-8 px-4 sm:px-8 lg:px-12">
+<div class="flex flex-col max-w-[1200px] flex-1 gap-6">
+<!-- Page Heading & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">Resumo de Vendas</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Desempenho mensal detalhado por marca no último semestre.</p>
 </div>
-
-<!-- Scripts de gráficos -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    // Receita por mês (linha)
-    new Chart(document.getElementById('receitaMesChart'), {
-        type: 'line',
-        data: {
-            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
-            datasets: [{
-                label: 'Receita',
-                data: [510000, 540000, 590000, 610000, 640000, 675000],
-                borderWidth: 3,
-                tension: 0.4
-            }]
-        }
-    });
-
-    // Receita vs Custo (barras)
-    new Chart(document.getElementById('receitaCustoChart'), {
-        type: 'bar',
-        data: {
-            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
-            datasets: [
-                {
-                    label: 'Receita',
-                    data: [510000, 540000, 590000, 610000, 640000, 675000],
-                    borderWidth: 1
-                },
-                {
-                    label: 'Custo',
-                    data: [250000, 270000, 290000, 310000, 330000, 350000],
-                    borderWidth: 1
-                }
-            ]
-        }
-    });
-</script>
-
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-slate-50 dark:hover:bg-[#252f3a] transition-colors">
+<span class="material-symbols-outlined mr-2 text-[20px]">filter_list</span>
+<span>Filtrar</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-md hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined mr-2 text-[20px]">download</span>
+<span>Exportar CSV</span>
+</button>
+</div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-1 rounded-xl p-5 border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">attach_money</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Vendas Totais</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">R$ 1.2M</p>
+<div class="flex items-center gap-1 text-emerald-500 text-xs font-bold bg-emerald-500/10 w-fit px-2 py-1 rounded-full mt-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+12% vs. anterior</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-5 border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">trophy</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Marca Top</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">Nike</p>
+<p class="text-slate-400 dark:text-slate-500 text-xs mt-1">32% do total de vendas</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-5 border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">calendar_month</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Melhor Mês</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">Dezembro</p>
+<p class="text-slate-400 dark:text-slate-500 text-xs mt-1">R$ 245k em vendas</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-5 border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl">analytics</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Média Mensal</p>
+</div>
+<p class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">R$ 100k</p>
+<div class="flex items-center gap-1 text-emerald-500 text-xs font-bold bg-emerald-500/10 w-fit px-2 py-1 rounded-full mt-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+5% vs. média anual</span>
+</div>
+</div>
+</div>
+<!-- Visualization Section (Charts) -->
+<div class="rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Tendência de Vendas</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Comparativo mensal entre as principais marcas</p>
+</div>
+<!-- Legend mockup -->
+<div class="flex gap-4 text-xs font-medium">
+<div class="flex items-center gap-2"><span class="block w-3 h-3 rounded-full bg-primary"></span><span class="text-slate-600 dark:text-slate-300">Nike</span></div>
+<div class="flex items-center gap-2"><span class="block w-3 h-3 rounded-full bg-sky-400"></span><span class="text-slate-600 dark:text-slate-300">Adidas</span></div>
+<div class="flex items-center gap-2"><span class="block w-3 h-3 rounded-full bg-slate-400"></span><span class="text-slate-600 dark:text-slate-300">Outros</span></div>
+</div>
+</div>
+<!-- Simple CSS Bar Chart Visualization -->
+<div class="w-full h-64 flex items-end justify-between gap-2 sm:gap-4 px-2">
+<!-- Jan -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[40%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[30%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[15%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Jan</span>
+</div>
+<!-- Fev -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[45%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[25%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[18%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Fev</span>
+</div>
+<!-- Mar -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[35%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[35%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[12%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Mar</span>
+</div>
+<!-- Abr -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[50%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[28%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[14%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Abr</span>
+</div>
+<!-- Mai -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[55%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[30%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[10%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Mai</span>
+</div>
+<!-- Jun -->
+<div class="flex flex-col items-center gap-2 h-full justify-end flex-1 group cursor-pointer">
+<div class="w-full max-w-[40px] bg-slate-200 dark:bg-slate-700/30 rounded-t-sm relative h-full flex flex-col justify-end overflow-hidden">
+<div class="bg-primary w-full h-[60%] transition-all group-hover:opacity-90"></div>
+<div class="bg-sky-400 w-full h-[32%] border-t border-surface-dark"></div>
+<div class="bg-slate-400 w-full h-[8%] border-t border-surface-dark"></div>
+</div>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Jun</span>
+</div>
+</div>
+</div>
+<!-- Detailed Table Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Detalhamento por Marca</h3>
+<div class="flex items-center gap-2">
+<span class="text-sm text-slate-500 dark:text-slate-400">Mostrar:</span>
+<select class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark text-slate-700 dark:text-slate-300 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2">
+<option>Últimos 6 meses</option>
+<option>Este ano</option>
+<option>Todos</option>
+</select>
+</div>
+</div>
+<div class="w-full overflow-hidden rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-50 dark:bg-[#151c24] border-b border-slate-200 dark:border-border-dark uppercase tracking-wider text-xs font-semibold text-slate-500 dark:text-slate-400">
+<tr>
+<th class="px-6 py-4 sticky left-0 z-10 bg-slate-50 dark:bg-[#151c24] border-r border-slate-200 dark:border-border-dark/50" scope="col">Marca</th>
+<th class="px-6 py-4 text-right" scope="col">Jan</th>
+<th class="px-6 py-4 text-right" scope="col">Fev</th>
+<th class="px-6 py-4 text-right" scope="col">Mar</th>
+<th class="px-6 py-4 text-right" scope="col">Abr</th>
+<th class="px-6 py-4 text-right" scope="col">Mai</th>
+<th class="px-6 py-4 text-right" scope="col">Jun</th>
+<th class="px-6 py-4 text-right bg-primary/5 dark:bg-primary/10 font-bold text-slate-700 dark:text-white" scope="col">Total Semestre</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-border-dark">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-bold text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 border-r border-slate-200 dark:border-border-dark/50 z-10 flex items-center gap-3">
+<div class="size-2 rounded-full bg-primary"></div>Nike</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 12.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 15.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 14.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 18.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 20.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 22.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white bg-primary/5 dark:bg-primary/10 tabular-nums">R$ 101.000</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-bold text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 border-r border-slate-200 dark:border-border-dark/50 z-10 flex items-center gap-3">
+<div class="size-2 rounded-full bg-sky-400"></div>Adidas</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 10.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 11.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 12.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 12.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 15.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 16.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white bg-primary/5 dark:bg-primary/10 tabular-nums">R$ 76.000</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-bold text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 border-r border-slate-200 dark:border-border-dark/50 z-10 flex items-center gap-3">
+<div class="size-2 rounded-full bg-slate-400"></div>Puma</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 8.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 9.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 8.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 10.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 11.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 12.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white bg-primary/5 dark:bg-primary/10 tabular-nums">R$ 58.000</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-bold text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 border-r border-slate-200 dark:border-border-dark/50 z-10 flex items-center gap-3">
+<div class="size-2 rounded-full bg-slate-400"></div>Reebok</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 5.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 6.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 5.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 6.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 7.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 7.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white bg-primary/5 dark:bg-primary/10 tabular-nums">R$ 36.000</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 font-bold text-slate-900 dark:text-white sticky left-0 bg-white dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 border-r border-slate-200 dark:border-border-dark/50 z-10 flex items-center gap-3">
+<div class="size-2 rounded-full bg-slate-400"></div>Under Armour</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">-</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">-</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 2.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 4.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 5.000</td>
+<td class="px-6 py-4 text-right text-slate-600 dark:text-slate-300 tabular-nums">R$ 6.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white bg-primary/5 dark:bg-primary/10 tabular-nums">R$ 17.000</td>
+</tr>
+</tbody>
+<tfoot class="bg-slate-50 dark:bg-[#151c24] border-t-2 border-slate-200 dark:border-border-dark">
+<tr>
+<td class="px-6 py-4 font-black text-slate-900 dark:text-white sticky left-0 bg-slate-50 dark:bg-[#151c24] border-r border-slate-200 dark:border-border-dark/50 z-10">Total Mensal</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 35.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 41.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 41.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 50.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 58.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-900 dark:text-white tabular-nums">R$ 63.000</td>
+<td class="px-6 py-4 text-right font-black text-primary bg-primary/10 tabular-nums">R$ 288.000</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
 {% endblock %}

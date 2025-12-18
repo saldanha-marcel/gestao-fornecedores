@@ -7,6 +7,7 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900"/>
 
     <!-- Tailwind CSS -->
@@ -15,14 +16,43 @@
 
     <!-- Ícone -->
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 
-    {% block extra_head %}{% endblock %}
+    {% block extra_head %}
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1c2630",
+                        "border-dark": "#2d3b4a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    {% endblock %}
   </head>
-  <body class="bg-[#111318] text-white" style='font-family: Inter, "Noto Sans", sans-serif;'>
+  <body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased min-h-screen flex flex-col overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
     <div class="min-h-screen flex flex-col overflow-x-hidden">
       {% if user.is_authenticated %}
       <!-- Header -->
-      <header class="flex items-center justify-between border-b border-[#282e39] px-10 py-3 w-full bg-white border-b shadow-sm">
+      <header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark px-10 py-3 shadow-sm">
 
         {% include "header.html" %}
       </header>

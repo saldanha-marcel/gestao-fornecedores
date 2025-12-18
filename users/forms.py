@@ -1,8 +1,26 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from .models import Users, UserManager
 from rolepermissions.roles import assign_role, clear_roles
+
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from .models import Users, UserManager
+from rolepermissions.roles import assign_role, clear_roles
+
+class CustomAuthenticationForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': "Usuário ou senha incorretos.",
+        'inactive': "Esta conta está inativa.",
+    }
+
+class CustomPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': 'block w-full rounded-lg border border-slate-300 dark:border-border-dark bg-background-light dark:bg-background-dark py-4 pl-12 pr-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#58636f] focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm sm:leading-6 h-14',
+            'placeholder': 'usuario@exemplo.com',
+        })
 
 class UserCreationForm(UserCreationForm):
     class Meta:

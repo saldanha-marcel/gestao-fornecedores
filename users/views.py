@@ -9,12 +9,21 @@
 
 
 from django.shortcuts import render
-from .forms import UserCreationForm, UserChangeForm
+from .forms import UserCreationForm, UserChangeForm, CustomAuthenticationForm, CustomPasswordResetForm
 from .models import Users
 from rolepermissions.decorators import has_role_decorator, has_permission_decorator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.db import IntegrityError
+from django.contrib.auth.views import LoginView, PasswordResetView
+
+class CustomLoginView(LoginView):
+    form_class = CustomAuthenticationForm
+    template_name = 'registration/login.html'
+
+class CustomPasswordResetView(PasswordResetView):
+    form_class = CustomPasswordResetForm
+    template_name = 'registration/password_reset_form.html'
 
 
 @has_role_decorator('Full')
